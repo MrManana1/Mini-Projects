@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translator</title>
+</head>
+<body>
+    <h1>Language Translator</h1>
+
+    <form method="post" action="{{ url_for('translate') }}">
+        <label for="text_to_translate">Text to Translate:</label>
+        <input type="text" name="text_to_translate" required>
+        
+        <label for="source_language">Source Language:</label>
+        <select name="source_language">
+            {% for code, language in languages.items() %}
+                <option value="{{ code }}">{{ language }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="target_language">Target Language:</label>
+        <select name="target_language">
+            {% for code, language in languages.items() %}
+                <option value="{{ code }}">{{ language }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Translate</button>
+    </form>
+
+    {% if original %}
+        <h2>Translation Result:</h2>
+        <p><strong>Original Text ({{ source_language }}):</strong> {{ original }}</p>
+        <p><strong>Translated Text ({{ target_language }}):</strong> {{ translated }}</p>
+    {% endif %}
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
