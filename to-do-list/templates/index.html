@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .remove-btn {
+            background-color: #dc3545;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="text-center">ToDo List</h1>
+                        <form action="{{ url_for('add_task') }}" method="post" class="mb-3">
+                            <div class="input-group">
+                                <input type="text" name="task" class="form-control" placeholder="Enter a task" required>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Add Task</button>
+                                </div>
+                            </div>
+                        </form>
+                        {% if tasks %}
+                        <ul class="task-list">
+                            {% for index in range(tasks|length) %}
+                                <li class="task-item">
+                                    <span>{{ tasks[index].text }} ({{ tasks[index].timestamp }})</span>
+                                    <form action="{{ url_for('remove_task', task_index=index) }}" method="get" style="display: inline;">
+                                        <button type="submit" class="remove-btn">Remove</button>
+                                    </form>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted text-center">No tasks in the to-do list.</p>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
